@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, BarChart3, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, BarChart3, Settings, Palette } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavItem {
@@ -26,6 +26,11 @@ const navItems: NavItem[] = [
     title: 'Analytics',
     href: '/analytics',
     icon: <BarChart3 className="h-5 w-5" />,
+  },
+  {
+    title: 'Style Gallery',
+    href: '/styles',
+    icon: <Palette className="h-5 w-5" />,
   },
   {
     title: 'Settings',

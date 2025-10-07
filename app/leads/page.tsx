@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { DashboardLayout } from '@/components/shared/dashboard-layout';
 import { LeadTable } from '@/components/leads/lead-table';
@@ -7,6 +9,7 @@ import { LeadDetailModal } from '@/components/leads/lead-detail-modal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { mockLeads } from '@/lib/mock-data/leads';
 import { Users, UserPlus, UserCheck, UserX } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Lead } from '@/types';
 
 export default function LeadsPage() {
@@ -28,6 +31,7 @@ export default function LeadsPage() {
     setSelectedLead(prev =>
       prev && prev.id === leadId ? { ...prev, status: newStatus } : prev
     );
+    toast.success('리드 상태가 변경되었습니다.');
   };
 
   const stats = {

@@ -1,3 +1,5 @@
+'use client';
+
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 import { Breadcrumb, BreadcrumbItem } from './breadcrumb';

@@ -14,6 +14,7 @@ import {
 } from '@tanstack/react-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Lead } from '@/types';
 
 interface LeadTableProps {
@@ -139,6 +140,7 @@ export function LeadTable({ data, onRowClick }: LeadTableProps) {
     link.href = URL.createObjectURL(blob);
     link.download = `leads_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
+    toast.success('CSV 파일이 다운로드되었습니다.');
   };
 
   return (

@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { DashboardLayout } from '@/components/shared/dashboard-layout';
 import { KPICard } from '@/components/dashboard/kpi-card';
 import { LineChart } from '@/components/charts/line-chart';

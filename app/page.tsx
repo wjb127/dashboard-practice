@@ -1,103 +1,131 @@
-import Image from "next/image";
+'use client';
+
+import { DashboardLayout } from '@/components/shared/dashboard-layout';
+import { KPICard } from '@/components/dashboard/kpi-card';
+import { LineChart } from '@/components/charts/line-chart';
+import { PieChart } from '@/components/charts/pie-chart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { mockVisitorData, mockSourceDistribution } from '@/lib/mock-data/leads';
+import { Users, TrendingUp, UserPlus, Activity } from 'lucide-react';
+import type { KPIData } from '@/types';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const kpiData: KPIData[] = [
+    {
+      title: '총 방문자',
+      value: '1,234',
+      change: 12.5,
+      trend: 'up',
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: '전환율',
+      value: '8.2%',
+      change: 2.3,
+      trend: 'up',
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: '신규 가입자',
+      value: '456',
+      change: -3.1,
+      trend: 'down',
+      icon: <UserPlus className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: '활성 사용자',
+      value: '892',
+      change: 5.7,
+      trend: 'up',
+      icon: <Activity className="h-4 w-4 text-muted-foreground" />,
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const visitorChartData = mockVisitorData.map((item) => ({
+    name: item.date,
+    방문자: item.visitors,
+    전환: item.conversions,
+  }));
+
+  return (
+    <DashboardLayout breadcrumbs={[{ title: 'Dashboard' }, { title: 'Overview' }]}>
+      <div className="space-y-6">
+        {/* Page Title */}
+        <div>
+          <h1 className="text-3xl font-bold">Overview</h1>
+          <p className="text-muted-foreground">랜딩페이지 고객 DB 대시보드</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* KPI Cards */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {kpiData.map((data, index) => (
+            <KPICard key={index} data={data} />
+          ))}
+        </div>
+
+        {/* Charts */}
+        <div className="grid gap-4 md:grid-cols-2">
+          {/* Visitor Trend Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>방문자 추이</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <LineChart
+                data={visitorChartData}
+                dataKeys={['방문자', '전환']}
+                colors={['#3b82f6', '#10b981']}
+                height={300}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Source Distribution Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>유입 소스 분포</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PieChart
+                data={mockSourceDistribution}
+                height={300}
+              />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Real-time Visitors Widget */}
+        <Card>
+          <CardHeader>
+            <CardTitle>실시간 방문자 현황</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span className="text-sm font-medium">현재 접속자</span>
+                </div>
+                <span className="text-2xl font-bold">127</span>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">페이지 뷰</span>
+                  <span className="font-medium">342</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">평균 체류 시간</span>
+                  <span className="font-medium">2분 34초</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">이탈률</span>
+                  <span className="font-medium">42.3%</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </DashboardLayout>
   );
 }

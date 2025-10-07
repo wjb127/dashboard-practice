@@ -28,6 +28,7 @@ export default function AnalyticsPage() {
 
   const locationChartData = mockLocationDistribution.map(item => ({
     name: item.location,
+    value: item.count,
     방문자: item.count,
   }));
 
@@ -38,6 +39,7 @@ export default function AnalyticsPage() {
 
   const abTestChartData = mockABTestData.map(item => ({
     name: `버전 ${item.variant}`,
+    value: item.visitors,
     방문자: item.visitors,
     전환: item.conversions,
   }));

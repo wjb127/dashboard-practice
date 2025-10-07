@@ -43,8 +43,14 @@ export default function Home() {
 
   const visitorChartData = mockVisitorData.map((item) => ({
     name: item.date,
+    value: item.visitors,
     방문자: item.visitors,
     전환: item.conversions,
+  }));
+
+  const sourceChartData = mockSourceDistribution.map((item) => ({
+    name: item.source,
+    value: item.value,
   }));
 
   return (
@@ -87,7 +93,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <PieChart
-                data={mockSourceDistribution}
+                data={sourceChartData}
                 height={300}
               />
             </CardContent>
